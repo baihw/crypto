@@ -1,0 +1,224 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.wee0</groupId>
+	<artifactId>crypto</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>crypto</name>
+	<url>https://github.com/baihw/crypto</url>
+	<description>Encryption and decryption Toolkit</description>
+		
+	<properties>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<build.defaultGoal>clean</build.defaultGoal>
+		<plugin.compiler.version>3.7.0</plugin.compiler.version>
+		<plugin.compiler.source>1.8</plugin.compiler.source>
+		<plugin.compiler.target>1.8</plugin.compiler.target>
+		<plugin.compiler.encoding>UTF-8</plugin.compiler.encoding>
+
+		<plugin.javadoc.version>3.0.1</plugin.javadoc.version>
+		<plugin.javadoc.source>1.8</plugin.javadoc.source>
+		<plugin.javadoc.show>public</plugin.javadoc.show>
+		<plugin.javadoc.title>crypto</plugin.javadoc.title>
+		<plugin.javadoc.bottom><![CDATA[Copyright wee0.com]]></plugin.javadoc.bottom>
+		<plugin.javadoc.sourcepath>${basedir}/src/main/java</plugin.javadoc.sourcepath>
+
+		<plugin.jar.version>3.1.0</plugin.jar.version>
+		<plugin.jar.mainClass>com.wee0.crypto.cli.EncryptorCli</plugin.jar.mainClass>
+		<plugin.dependency.version>3.1.1</plugin.dependency.version>
+
+		<plugin.source.version>3.0.1</plugin.source.version>
+		<plugin.gpg.version>1.6</plugin.gpg.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.23.0</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<defaultGoal>${build.defaultGoal}</defaultGoal>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${plugin.compiler.version}</version>
+				<configuration>
+					<source>${plugin.compiler.source}</source>
+					<target>${plugin.compiler.target}</target>
+					<encoding>${plugin.compiler.encoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${plugin.javadoc.version}</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<source>${plugin.javadoc.source}</source>
+					<show>${plugin.javadoc.show}</show>
+					<doctitle>${plugin.javadoc.title}</doctitle>
+					<windowtitle>${plugin.javadoc.title}</windowtitle>
+					<bottom>${plugin.javadoc.bottom}</bottom>
+					<sourcepath>${plugin.javadoc.sourcepath}</sourcepath>
+					<additionalparam>-Xdoclint:none</additionalparam>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${plugin.jar.version}</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>${plugin.jar.mainClass}</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${plugin.dependency.version}</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+							<includeScope>runtime</includeScope>
+							<excludeTransitive>true</excludeTransitive>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>deploy</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>${plugin.source.version}</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${plugin.gpg.version}</version>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<!-- �ֿ����� -->
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-repo</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<tag>master</tag>
+		<connection>scm:git:git@github.com:baihw/crypto.git</connection>
+		<developerConnection>scm:git:git@github.com:baihw/crypto.git</developerConnection>
+		<url>scm:git:git@github.com:baihw/crypto.git</url>
+	</scm>
+	<developers>
+		<developer>
+			<name>baihw</name>
+			<email>78026399@qq.com</email>
+			<organization>github</organization>
+			<organizationUrl>https://github.com/baihw/</organizationUrl>
+		</developer>
+	</developers>
+
+</project>
