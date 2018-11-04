@@ -71,6 +71,7 @@ System.out.println( "matches:" + mapDigester.matches( map, result ) );
 1. 为授权通信站点颁发通信密钥，如：123456。
 1. 使用通信密钥对敏感数据进行加密传输。
 1. 使用通信密钥对请求数据进行数字签名。     
+
 示例代码  
 ```java
 String secretKey = "123456" ;
