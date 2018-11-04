@@ -186,7 +186,7 @@
 		</profile>
 	</profiles>
 
-	<!-- �ֿ����� -->
+	<!-- 仓库配置 -->
 	<distributionManagement>
 		<snapshotRepository>
 			<id>sonatype-repo</id>
