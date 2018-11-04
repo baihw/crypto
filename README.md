@@ -10,15 +10,13 @@
 ## 快速上手
 
 - **maven引用** 
-
   ```xml
-<dependency>
-    <groupId>com.wee0</groupId>
-    <artifactId>crypto</artifactId>
-    <version>0.1.0</version>
-</dependency>
+    <dependency>
+            <groupId>com.wee0</groupId>
+            <artifactId>crypto</artifactId>
+            <version>0.1.0</version>
+    </dependency>
   ```
-
 - **手动编译**  
    下载源码,执行`mvn clean package`。   
 
@@ -55,7 +53,7 @@ System.out.println( "matches:" + stringDigester.matches( "hello", result ) );
 ```
 
 对键值集合进行签名计算。<br/>
-特点：可选的混合密钥签名，防止网络传输中数据被恶意拦截修改后，攻击者使用相同的签名方法签名后重新发送，支持ServletRequest对象。
+特点：可选的混合密钥签名，防止网络传输中数据被恶意拦截修改后，攻击者使用相同的签名方法签名后重新发送，支持ServletRequest对象。<br/>
 适用场景：数据交换，跨站点安全通信
 ```java
 Map<String, String> map = new HashMap<>() ;
